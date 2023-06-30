@@ -15,9 +15,4 @@ it('Find and buy product', () => {
 
     findProduct('Apple Juice')
 
-    //findNewProd('Apple Juice')
-
-    // cy.get('body').then(body => {
-    //     body.find('.mat-card').contains(productName)}
-
 })
