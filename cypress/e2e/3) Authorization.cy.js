@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import user from "../fixtures/user.json";
 import { closePopups, register } from "../support/helper";
+import authPage from '../support/pages/AuthPage';
 
 user.email = faker.internet.email();
 user.password = faker.internet.password();
@@ -14,24 +15,24 @@ it('Login success', () => {
     cy.clearCookies();
 
     cy.log('Open authorization page');
-    cy.visit('https://juice-shop-sanitarskyi.herokuapp.com/#/login');
+    authPage.visit();
 
     cy.log('Close popups');
-    cy.get('.cc-btn').click();
+    authPage.getPopup().click();
 
     cy.log('Type email');
-    cy.get('#email').type(user.email);
+    authPage.getEmailField().type(user.email);
 
     cy.log('Type password');
-    cy.get('#password').type(user.password);
+    authPage.getPasswordField().type(user.password);
 
     cy.log('Press Login button');
-    cy.get('#loginButton').click();
+    authPage.getLoginButton().click();
 
     cy.log('Open Account');
-    cy.get('#navbarAccount').click();
+    authPage.getNavbarAccount().click();
 
     cy.log('Check logged in user');
-    cy.get('.mat-menu-content > [aria-label="Go to user profile"] > span').invoke('text').should('contain', user.email)
+    authPage.getUserProfile().invoke('text').should('contain', user.email)
 
 })

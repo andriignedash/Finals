@@ -1,38 +1,38 @@
 import { faker } from '@faker-js/faker';
 import user from "../fixtures/user.json";
 import { closePopups } from "../support/helper";
+import regPage from '../support/pages/RegPage';
 
 user.email = faker.internet.email();
 user.password = faker.internet.password();
 
 it('Registration (positive)', () => {
     cy.log('Open registration page');
-    cy.visit('https://juice-shop-sanitarskyi.herokuapp.com/#/register');
+    regPage.visit();
 
     cy.log('Close popups');
     closePopups();
 
     cy.log('Type email');
-    cy.get('#emailControl').type(user.email);
+    regPage.getEmailField().type(user.email);
 
     cy.log('Type password');
-    cy.get('#passwordControl').type(user.password);
+    regPage.getPasswordField().type(user.password);
 
     cy.log('Repeat password');
-    cy.get('#repeatPasswordControl').type(user.password);
+    regPage.getRepeatPasswordField().type(user.password);
 
     cy.log('Choose security qyestion');
-    cy.get('.mat-select-placeholder').click();
-    cy.get('#mat-option-1 > .mat-option-text').click();
+    regPage.getSecurityQuestion();
 
     cy.log('Type answer');
-    cy.get('#securityAnswerControl').type(faker.person.firstName());
+    regPage.getAnswerField().type(faker.person.firstName());
 
     cy.log('Press Register button');
-    cy.get('#registerButton').click();
+    regPage.getRegisterButton().click();
 
     cy.log('Check toast "Registration completed successfully. You can now log in."')
-    cy.get('.mat-simple-snack-bar-content').should('exist');
+    regPage.getToast().should('exist');
 })
 
 

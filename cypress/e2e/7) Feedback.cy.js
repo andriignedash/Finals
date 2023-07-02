@@ -30,6 +30,7 @@ it('Feedback form', () => {
     cy.log('Submit button');
     cy.get('#submitButton').click();
 
+    cy.log('"Thank you" toast');
     cy.get('.cdk-overlay-container').should('contain', "Thank you for your feedback.");
-        
+
 })

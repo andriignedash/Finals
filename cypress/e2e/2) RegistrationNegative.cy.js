@@ -1,19 +1,20 @@
 import { faker } from '@faker-js/faker';
 import user from "../fixtures/user.json";
 import { closePopups, register } from "../support/helper";
+import regPage from '../support/pages/RegPage';
 
 user.email = faker.internet.email();
 user.password = faker.internet.password();
 
 it('Empty form - button disabled', () => {
     cy.log('Open registration page');
-    cy.visit('https://juice-shop-sanitarskyi.herokuapp.com/#/register');
+    regPage.visit();
 
     cy.log('Close popups');
     closePopups();
 
     cy.log('Button is disabled');
-    cy.get('#registerButton').should('be.disabled')
+    regPage.getRegisterButton().should('be.disabled')
 })
 
 
@@ -28,7 +29,7 @@ it('Email is used already', () => {
     cy.clearCookies();
 
     cy.log('Open registration page');
-    cy.visit('https://juice-shop-sanitarskyi.herokuapp.com/#/register');
+    regPage.visit();
 
     cy.log('Close popups');
     closePopups();
@@ -37,5 +38,5 @@ it('Email is used already', () => {
     register();
 
     cy.log('Error "Email must be unique"');
-    cy.get('.error').invoke('text').should('contain', 'Email must be unique')
+    regPage.getError().invoke('text').should('contain', 'Email must be unique')
 })
